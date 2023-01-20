@@ -13,19 +13,19 @@ export default function TextForm(props) {
     // console.log("Uppercase was clicked !" + text);
     let newText = text.toUpperCase();
     setText(newText);
-    props.showAlert("Converted to Uppercase !","success");
+    props.showAlert("Converted to Uppercase !", "success");
   };
   const handleLoClick = () => {
     let newText = text.toLocaleLowerCase();
     setText(newText);
-    props.showAlert("Converted to Lowercase !","success");
+    props.showAlert("Converted to Lowercase !", "success");
   };
   const handleVoClick = () => {
     for (count = 0; count <= text.length; count++) {
       if (text.charAt(count).match(/[aeiouAEIOU]/)) {
         countChar++;
         setCount(countChar);
-        props.showAlert("Counted the no. of Vowels !","success");
+        props.showAlert("Counted the no. of Vowels !", "success");
       }
     }
     // console.log("No. of Vowels are: " + countChar);
@@ -40,8 +40,8 @@ export default function TextForm(props) {
         countCons++;
         setCount1(countCons);
       }
-    }    
-    props.showAlert("Counted the no. of Consonants !","success");
+    }
+    props.showAlert("Counted the no. of Consonants !", "success");
     // console.log("No. of consonants are: " + countCons);
   };
   const handleOnChange = (event) => {
@@ -57,29 +57,29 @@ export default function TextForm(props) {
         }}
       >
         <div className="mb-3">
-          <h2>{props.heading}</h2>
+          <h2 className="mb-4">{props.heading}</h2>
           <textarea
             className="form-control"
             value={text}
             onChange={handleOnChange}
             style={{
-              backgroundColor: props.mode === "dark" ? "#042743" : "white",
+              backgroundColor: props.mode === "dark" ? "#13466e" : "white",
               color: props.mode === "dark" ? "white" : "#042743",
             }}
             id="myBox"
             rows="8"
           ></textarea>
         </div>
-        <button className="btn btn-primary mx-1" onClick={handleUpClick}>
+        <button disabled={text.length === 0} className="btn btn-primary mx-1 my-1" onClick={handleUpClick}>
           Convert to Uppercase
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleLoClick}>
+        <button disabled={text.length === 0} className="btn btn-primary mx-1 my-1" onClick={handleLoClick}>
           Convert to Lowercase
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleVoClick}>
+        <button disabled={text.length === 0} className="btn btn-primary mx-1 my-1" onClick={handleVoClick}>
           Count no. of Vowels
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleCoClick}>
+        <button disabled={text.length === 0} className="btn btn-primary mx-1 my-1" onClick={handleCoClick}>
           Count no. of Consonants
         </button>
       </div>
@@ -91,14 +91,29 @@ export default function TextForm(props) {
       >
         <h3>Your text summary</h3>
         <p>
-          {text.split(" ").length} words, {text.length} characters
+          {
+            text.split(" ").filter((element) => {
+              return element.length !== 0;
+            }).length
+          }{" "}
+          words, {text.length} characters
         </p>
-        <p>{0.008 * text.split(" ").length} Minutes read</p>
+        <p>
+          {0.008 *
+            text.split(" ").filter((element) => {
+              return element.length !== 0;
+            }).length}{" "}
+          Minutes read
+        </p>
         <h3>You have entered:</h3>
         <p>{count} No. of Vowels</p>
         <p>{count1} No. of Consonants</p>
         <h3>Preview</h3>
-        <p>{text.length>0?text:'Enter something in the textbox to preview ir her'}</p>
+        <p>
+          {text.length > 0
+            ? text
+            : "Enter something in the textbox to preview ir her"}
+        </p>
       </div>
     </>
   );
